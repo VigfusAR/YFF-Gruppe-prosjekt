@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ event[1] }} - Seat Selection</title>
+    <style>
+        .seating-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .taken {
+            background-color: #ff4444;
+            cursor: not-allowed;
+        }
+        .available {
+            background-color: #44ff44;
+        }
+        .stage {
+            text-align: center;
+            padding: 20px;
+            background-color: #eee;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ event[1] }}</h1>
+    <div class="stage">STAGE</div>
+    <div class="seating-layout">
+        {% for row in seating %}
+        <div class="row">
+            {% for seat in row %}
+            <div class="seat {% if seat.taken %}taken{% else %}available{% endif %}"
+                 {% if not seat.taken %}onclick="bookSeat({{ seat.row }}, {{ seat.column }})"{% endif %}>
+                {{ seat.row }}-{{ seat.column }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function bookSeat(row, column) {
+            if (confirm(`Do you want to book seat ${row}-${column}?`)) {
+                // Add booking functionality here
+                alert('Booking functionality will be implemented later');
+            }
+        }
+    </script>
+</body>
+</html>
