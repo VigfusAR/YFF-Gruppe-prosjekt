@@ -3,15 +3,40 @@
 <head>
     <title>{{ event[1] }} - Seat Selection</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        nav {
+            background: #333;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        .event-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
         .seating-layout {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin: 20px;
         }
         .row {
             display: flex;
             gap: 10px;
+            justify-content: center;
         }
         .seat {
             width: 40px;
@@ -21,31 +46,109 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8em;
         }
         .taken {
             background-color: #ff4444;
             cursor: not-allowed;
+            color: white;
         }
         .available {
-            background-color: #44ff44;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .available:hover {
+            background-color: #45a049;
         }
         .stage {
             text-align: center;
             padding: 20px;
-            background-color: #eee;
+            background-color: #333;
+            color: white;
             margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        .flash {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <h1>{{ event[1] }}</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        {% if session.user_id %}
+            <a href="{{ url_for('user_profile') }}">My Profile</a>
+            {% if session.is_admin %}
+                <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="event-info">
+        <h1>{{ event[1] }}</h1>
+        <p><strong>Date:</strong> {{ event[3] }}</p>
+        <p><strong>Venue:</strong> {{ event[4] }}</p>
+        <p><strong>Price:</strong> ${{ "%.2f"|format(event[9]) }}</p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-box available"></div>
+            <span>Available</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-box taken"></div>
+            <span>Taken</span>
+        </div>
+    </div>
+
     <div class="stage">STAGE</div>
+
     <div class="seating-layout">
         {% for row in seating %}
         <div class="row">
             {% for seat in row %}
-            <div class="seat {% if seat.taken %}taken{% else %}available{% endif %}"
-                 {% if not seat.taken %}onclick="bookSeat({{ seat.row }}, {{ seat.column }})"{% endif %}>
+            <div class="seat {% if seat.taken %}taken{% else %}available{% endif %}
+                 {% if not seat.taken and session.user_id %}
+                    onclick=bookSeat({{ event[0] }}, {{ seat.row }}, {{ seat.column }})
+                 {% elif not session.user_id %}
+                    onclick=alert('Please login to book seats')
+                 {% endif %}
+                 title= Row {{ seat.row }}, Seat {{ seat.column }}">
                 {{ seat.row }}-{{ seat.column }}
             </div>
             {% endfor %}
@@ -54,12 +157,28 @@
     </div>
 
     <script>
-        function bookSeat(row, column) {
-            if (confirm(`Do you want to book seat ${row}-${column}?`)) {
-                // Add booking functionality here
-                alert('Booking functionality will be implemented later');
-            }
+    function bookSeat(eventId, row, column) {
+        if (confirm(`Do you want to book seat ${row}-${column}?`)) {
+            fetch(`/book_seat/${eventId}/${row}/${column}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Seat booked successfully!');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Failed to book seat');
+                }
+            })
+            .catch(error => {
+                alert('Error booking seat');
+            });
         }
+    }
     </script>
 </body>
 </html>

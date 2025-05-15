@@ -100,10 +100,41 @@ def admin_required(f):
 def home():
     conn = sqlite3.connect('tickets.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM events WHERE date > ? ORDER BY date', (datetime.now(),))
+    
+    # Get all upcoming events ordered by date
+    c.execute('''SELECT 
+                    events.id,
+                    events.name,
+                    events.description,
+                    strftime('%Y-%m-%d %H:%M', events.date) as formatted_date,
+                    events.venue,
+                    events.available_seats,
+                    events.total_seats,
+                    events.price
+                FROM events 
+                WHERE date >= ?
+                ORDER BY date''', (datetime.now(),))
     upcoming_events = c.fetchall()
+    
+    # Get past events
+    c.execute('''SELECT 
+                    events.id,
+                    events.name,
+                    events.description,
+                    strftime('%Y-%m-%d %H:%M', events.date) as formatted_date,
+                    events.venue,
+                    events.available_seats,
+                    events.total_seats,
+                    events.price
+                FROM events 
+                WHERE date < ?
+                ORDER BY date DESC''', (datetime.now(),))
+    past_events = c.fetchall()
+    
     conn.close()
-    return render_template('home.html', events=upcoming_events)
+    return render_template('home.html', 
+                         upcoming_events=upcoming_events, 
+                         past_events=past_events)
 
 @app.route('/about')
 def about():
