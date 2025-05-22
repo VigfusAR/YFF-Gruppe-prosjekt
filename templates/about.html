@@ -1,79 +1,75 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kulturkick</title>
-  <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Kulturkick</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <header>
-    <div class="header-bar">
-      <h1>Kulturkick</h1>
-      <img src="logo.png" alt="Kulturkick logo" class="logo">
-    </div>
-    <div class="sub-header">
-      <h2>Vårt team</h2>
-    </div>
-  </header>
+    <header>
+        <h1>Kulturkick</h1>
+        <img class="bilde" src="{{ url_for('static', filename='logo-removebg-preview (1).png') }}" alt="Kulturkick Logo">
+    </header>
 
-  <main>
-    <!-- Team-visning -->
-    <div class="team-section">
-      <div class="search-bar">
-        <input type="text" placeholder="Value">
-        <button>X</button>
-      </div>
-      <div class="team-list">
-        <!-- Gjenta divs for hvert medlem -->
-        <div class="team-card"></div>
-        <div class="team-card"></div>
-        <div class="team-card"></div>
-        <div class="team-card"></div>
-        <div class="team-card"></div>
-        <div class="team-card"></div>
-      </div>
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">Fremside</a>
+        <a href="{{ url_for('about') }}">About</a>
+        {% if session.user_id %}
+            <a href="{{ url_for('user_profile') }}">My Profile</a>
+            {% if session.is_admin %}
+                <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
     </div>
 
-    <!-- Showvisning -->
-    <section class="show-section">
-      <h2>Våre show</h2>
-
-      <div class="image-carousel">
-        <button class="arrow left">‹</button>
-        <div class="carousel-images">
-          <div class="carousel-item">Bilde</div>
-          <div class="carousel-item">Bilde</div>
-          <div class="carousel-item">Bilde</div>
+    <div class="events-container">
+        <h1 class="section-title">Vårt Team</h1>
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card">
+                <div class="member-info">
+                    <h3>{{ member.name }}</h3>
+                    <p>{{ member.role }}</p>
+                    <p>{{ member.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <button class="arrow right">›</button>
-      </div>
 
-      <div class="ticket-section">
-        <div class="ticket-options">
-          <button>Bestill billetter</button>
-          <ul>
-            <li>Mulighet 1</li>
-            <li>Mulighet 2</li>
-            <li>Mulighet 3</li>
-          </ul>
+        <h2 class="section-title">Våre Show</h2>
+        <div class="image-carousel">
+            <button class="arrow left">‹</button>
+            <div class="carousel-images">
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='show1.jpg') }}" alt="Show 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='show2.jpg') }}" alt="Show 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='show3.jpg') }}" alt="Show 3">
+                </div>
+            </div>
+            <button class="arrow right">›</button>
         </div>
-        <div class="seat-view">
-          Sete-view som på kino
+
+        <h2 class="section-title">Hvor vi befinner oss</h2>
+        <div class="location-container">
+            <div class="info-box">
+                <h3>Kultur Kick</h3>
+                <p>Address: Kultur123 veien</p>
+                <p>Phone: +47 XXX XX XXX</p>
+                <p>Email: contact@kulturkick.no</p>
+            </div>
+            <div class="map-box">
+                <img src="{{ url_for('static', filename='map.png') }}" alt="Map Location" class="map-image">
+            </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Kartseksjon -->
-    <section class="location-section">
-      <h2>Hvor vi befinner oss</h2>
-
-      <div class="location-grid">
-        <div class="info-box">Tekst</div>
-        <img src="map.png" alt="Kart til Romsdal High School" class="map" />
-        <div class="info-box wide">Tekst</div>
-      </div>
-    </section>
-  </main>
+    </div>
 </body>
 </html>

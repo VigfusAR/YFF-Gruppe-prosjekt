@@ -1,81 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Add New Event</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        nav {
-            background: #333;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 10px;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="datetime-local"],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .flash {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event - Kulturkick</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
+    <header>
+        <h1>Kulturkick</h1>
+        <img class="bilde" src="{{ url_for('static', filename='logo-removebg-preview (1).png') }}" alt="Kulturkick Logo">
+    </header>
+
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">Fremside</a>
+        <a href="{{ url_for('about') }}">About</a>
         <a href="{{ url_for('user_profile') }}">My Profile</a>
+        <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
         <a href="{{ url_for('logout') }}">Logout</a>
-    </nav>
+    </div>
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -85,46 +28,48 @@
         {% endif %}
     {% endwith %}
 
-    <div class="form-container">
-        <h2>Add New Event</h2>
-        <form method="POST">
-            <div class="form-group">
-                <label for="name">Event Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+    <div class="events-container">
+        <div class="form-container">
+            <h2 class="section-title">Add New Event</h2>
+            <form method="POST" class="event-form">
+                <div class="form-group">
+                    <label for="name">Event Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
 
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="date">Date and Time:</label>
-                <input type="datetime-local" id="date" name="date" required>
-            </div>
+                <div class="form-group">
+                    <label for="date">Date and Time:</label>
+                    <input type="datetime-local" id="date" name="date" required>
+                </div>
 
-            <div class="form-group">
-                <label for="venue">Venue:</label>
-                <input type="text" id="venue" name="venue" required>
-            </div>
+                <div class="form-group">
+                    <label for="venue">Venue:</label>
+                    <input type="text" id="venue" name="venue" required>
+                </div>
 
-            <div class="form-group">
-                <label for="total_rows">Number of Rows:</label>
-                <input type="number" id="total_rows" name="total_rows" min="1" required>
-            </div>
+                <div class="form-group">
+                    <label for="total_rows">Number of Rows:</label>
+                    <input type="number" id="total_rows" name="total_rows" min="1" required>
+                </div>
 
-            <div class="form-group">
-                <label for="seats_per_row">Seats per Row:</label>
-                <input type="number" id="seats_per_row" name="seats_per_row" min="1" required>
-            </div>
+                <div class="form-group">
+                    <label for="seats_per_row">Seats per Row:</label>
+                    <input type="number" id="seats_per_row" name="seats_per_row" min="1" required>
+                </div>
 
-            <div class="form-group">
-                <label for="price">Ticket Price ($):</label>
-                <input type="number" id="price" name="price" min="0" step="0.01" required>
-            </div>
+                <div class="form-group">
+                    <label for="price">Ticket Price ($):</label>
+                    <input type="number" id="price" name="price" min="0" step="0.01" required>
+                </div>
 
-            <button type="submit" class="btn">Add Event</button>
-        </form>
+                <button type="submit" class="submit-btn">Add Event</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
