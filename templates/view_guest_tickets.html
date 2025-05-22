@@ -14,9 +14,9 @@
 
     <div class="navbar">
         <a href="{{ url_for('home') }}">Fremside</a>
-        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('about') }}">Om oss</a>
         <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('register') }}">Registrer</a>
     </div>
 
     {% with messages = get_flashed_messages() %}
@@ -28,18 +28,19 @@
     {% endwith %}
 
     <div class="events-container">
-        <div class="form-container">
-            <h2 class="section-title">View Your Tickets</h2>
-            <p class="form-description">Enter your email address to view your tickets</p>
+        // ...existing code...
+<div class="form-container">
+    <h2 class="section-title">Se Dine Billetter</h2>
+    <p class="form-description">Skriv inn din e-postadresse for å se billettene dine</p>
 
-            <form method="GET" action="{{ url_for('my_tickets') }}" class="ticket-form">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <button type="submit" class="submit-btn">View Tickets</button>
-            </form>
+    <form method="GET" action="{{ url_for('my_tickets') }}" class="ticket-form">
+        <div class="form-group">
+            <label for="email">E-post:</label>
+            <input type="email" id="email" name="email" required>
         </div>
+        <button type="submit" class="submit-btn">Se Billetter</button>
+    </form>
+</div>
     </div>
 </body>
 </html>

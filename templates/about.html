@@ -14,39 +14,40 @@
 
     <div class="navbar">
         <a href="{{ url_for('home') }}">Fremside</a>
-        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('about') }}">Om oss</a>
         {% if session.user_id %}
-            <a href="{{ url_for('user_profile') }}">My Profile</a>
+            <a href="{{ url_for('user_profile') }}">Min Profil</a>
             {% if session.is_admin %}
                 <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
             {% endif %}
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('logout') }}">Logut</a>
         {% else %}
             <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('register') }}">Registrer</a>
         {% endif %}
     </div>
 
     <div class="events-container">
         <h1 class="section-title">Vårt Team</h1>
-        <div class="team-grid">
-            {% for member in team_members %}
-            <div class="team-card">
-                <div class="member-info">
-                    <h3>{{ member.name }}</h3>
-                    <p>{{ member.role }}</p>
-                    <p>{{ member.description }}</p>
+        <div class="image-carousel">
+            <div class="carousel-images">
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='pers1.png') }}" alt="Show 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='pers2.jpg') }}" alt="Show 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ url_for('static', filename='pers3.jpg') }}" alt="Show 3">
                 </div>
             </div>
-            {% endfor %}
         </div>
 
         <h2 class="section-title">Våre Show</h2>
         <div class="image-carousel">
-            <button class="arrow left">‹</button>
             <div class="carousel-images">
                 <div class="carousel-item">
-                    <img src="{{ url_for('static', filename='show1.jpg') }}" alt="Show 1">
+                    <img src="{{ url_for('static', filename='show1.png') }}" alt="Show 1">
                 </div>
                 <div class="carousel-item">
                     <img src="{{ url_for('static', filename='show2.jpg') }}" alt="Show 2">
@@ -55,7 +56,6 @@
                     <img src="{{ url_for('static', filename='show3.jpg') }}" alt="Show 3">
                 </div>
             </div>
-            <button class="arrow right">›</button>
         </div>
 
         <h2 class="section-title">Hvor vi befinner oss</h2>

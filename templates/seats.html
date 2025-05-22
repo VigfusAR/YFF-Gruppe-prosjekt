@@ -20,9 +20,9 @@
             {% if session.is_admin %}
                 <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
             {% endif %}
-            <a href="{{ url_for('logout') }}">Logg Ut</a>
+            <a href="{{ url_for('logout') }}">Logut</a>
         {% else %}
-            <a href="{{ url_for('login') }}">Logg Inn</a>
+            <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Registrer</a>
         {% endif %}
     </div>

@@ -14,16 +14,16 @@
 
     <div class="navbar">
         <a href="{{ url_for('home') }}">Fremside</a>
-        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('about') }}">Om oss</a>
         {% if session.user_id %}
-            <a href="{{ url_for('user_profile') }}">My Profile</a>
+            <a href="{{ url_for('user_profile') }}">Min Profil</a>
             {% if session.is_admin %}
                 <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
             {% endif %}
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('logout') }}">Logut</a>
         {% else %}
             <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('register') }}">Registrer</a>
         {% endif %}
     </div>
 
@@ -36,39 +36,39 @@
     {% endwith %}
 
     <div class="events-container">
-        <div class="booking-container">
-            <h2 class="section-title">Book Seat for {{ event[1] }}</h2>
-            <div class="booking-details">
-                <p><strong>Date:</strong> {{ event[3] }}</p>
-                <p><strong>Venue:</strong> {{ event[4] }}</p>
-                <p><strong>Selected Seat:</strong> Row {{ row }}, Column {{ column }}</p>
-                <p><strong>Price:</strong> {{ event[9] }} NOK</p>
-            </div>
+<div class="booking-container">
+    <h2 class="section-title">Bestill Plass for {{ event[1] }}</h2>
+    <div class="booking-details">
+        <p><strong>Dato:</strong> {{ event[3] }}</p>
+        <p><strong>Sted:</strong> {{ event[4] }}</p>
+        <p><strong>Valgt Plass:</strong> Rad {{ row }}, Plass {{ column }}</p>
+        <p><strong>Pris:</strong> {{ event[9] }} kr</p>
+    </div>
 
-            <form method="POST" class="booking-form">
-                {% if session.user_id %}
-                    <div class="user-info">
-                        <p>You are logged in as {{ session.username }}</p>
-                        <p>Your ticket will be associated with your account.</p>
-                    </div>
-                {% else %}
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="vipps_number">Vipps Number (optional):</label>
-                        <input type="tel" id="vipps_number" name="vipps_number">
-                    </div>
-                {% endif %}
-                
-                <button type="submit" class="submit-btn">Confirm Booking</button>
-            </form>
-        </div>
+    <form method="POST" class="booking-form">
+        {% if session.user_id %}
+            <div class="user-info">
+                <p>Du er logget inn som {{ session.username }}</p>
+                <p>Billetten vil bli knyttet til din konto.</p>
+            </div>
+        {% else %}
+            <div class="form-group">
+                <label for="email">E-post:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefonnummer:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="vipps_number">Vipps Nummer (valgfritt):</label>
+                <input type="tel" id="vipps_number" name="vipps_number">
+            </div>
+        {% endif %}
+        
+        <button type="submit" class="submit-btn">Bekreft Bestilling</button>
+    </form>
+</div>
     </div>
 </body>
 </html>

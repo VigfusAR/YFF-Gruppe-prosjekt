@@ -14,12 +14,12 @@
 
     <div class="navbar">
         <a href="{{ url_for('home') }}">Fremside</a>
-        <a href="{{ url_for('about') }}">About</a>
-        <a href="{{ url_for('user_profile') }}">My Profile</a>
+        <a href="{{ url_for('about') }}">Om oss</a>
+        <a href="{{ url_for('user_profile') }}">Min Profil</a>
         {% if session.is_admin %}
             <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
         {% endif %}
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('logout') }}">Logut</a>
     </div>
 
     {% with messages = get_flashed_messages() %}
@@ -31,38 +31,38 @@
     {% endwith %}
 
     <div class="events-container">
-        <h1 class="section-title">Welcome, {{ session.username }}!</h1>
-        
-        <h2 class="section-title">My Tickets</h2>
-        {% if tickets %}
-            <div class="event-grid">
-                {% for ticket in tickets %}
-                    <div class="event-card">
-                        <div class="event-header">
-                            <h3>{{ ticket[10] }}</h3>
-                        </div>
-                        <div class="event-content">
-                            <p><strong>Seat:</strong> Row {{ ticket[4] }}, Seat {{ ticket[5] }}</p>
-                            <p><strong>Purchase Date:</strong> {{ ticket[6].split()[0] }}</p>
-                            <p>
-                                <strong>Status:</strong> 
-                                <span class="status-{{ ticket[7] }}">{{ ticket[7].title() }}</span>
-                            </p>
-                            <p><strong>Ticket ID:</strong> #{{ ticket[0] }}</p>
-                            {% if ticket[7] == 'active' %}
-                                <a href="{{ url_for('show_seats', event_id=ticket[1]) }}" 
-                                   class="view-button">View Seat Location</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
+<h1 class="section-title">Velkommen, {{ session.username }}!</h1>
+
+<h2 class="section-title">Mine Billetter</h2>
+{% if tickets %}
+    <div class="event-grid">
+        {% for ticket in tickets %}
+            <div class="event-card">
+                <div class="event-header">
+                    <h3>{{ ticket[10] }}</h3>
+                </div>
+                <div class="event-content">
+                    <p><strong>Plass:</strong> Rad {{ ticket[4] }}, Sete {{ ticket[5] }}</p>
+                    <p><strong>Kjøpsdato:</strong> {{ ticket[6].split()[0] }}</p>
+                    <p>
+                        <strong>Status:</strong> 
+                        <span class="status-{{ ticket[7] }}">{{ ticket[7].title() }}</span>
+                    </p>
+                    <p><strong>Billett ID:</strong> #{{ ticket[0] }}</p>
+                    {% if ticket[7] == 'active' %}
+                        <a href="{{ url_for('show_seats', event_id=ticket[1]) }}" 
+                           class="view-button">Se Plassering</a>
+                    {% endif %}
+                </div>
             </div>
-        {% else %}
-            <div class="no-events">
-                <p>You haven't purchased any tickets yet.</p>
-                <a href="{{ url_for('home') }}" class="view-button">Browse Events</a>
-            </div>
-        {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-events">
+        <p>Du har ikke kjøpt noen billetter ennå.</p>
+        <a href="{{ url_for('home') }}" class="view-button">Se Arrangementer</a>
+    </div>
+{% endif %}
     </div>
 </body>
 </html>

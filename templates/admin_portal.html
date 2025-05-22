@@ -14,10 +14,10 @@
 
     <div class="navbar">
         <a href="{{ url_for('home') }}">Fremside</a>
-        <a href="{{ url_for('about') }}">About</a>
-        <a href="{{ url_for('user_profile') }}">My Profile</a>
+        <a href="{{ url_for('about') }}">Om oss</a>
+        <a href="{{ url_for('user_profile') }}">Min Profil</a>
         <a href="{{ url_for('admin_portal') }}">Admin Portal</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('logout') }}">Logut</a>
     </div>
 
     {% with messages = get_flashed_messages() %}
@@ -31,40 +31,40 @@
     <div class="events-container">
         <h1 class="section-title">Admin Portal</h1>
         
-        <div class="dashboard">
-            <div class="stat-card">
-                <h3>Total Events</h3>
-                <div class="stat-number">{{ events|length }}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Total Users</h3>
-                <div class="stat-number">{{ total_users }}</div>
-            </div>
-            <div class="stat-card">
-                <h3>Total Tickets Sold</h3>
-                <div class="stat-number">{{ total_tickets }}</div>
-            </div>
-        </div>
-
-        <div class="events-section">
-            <div class="section-header">
-                <h2 class="section-title">Manage Events</h2>
-                <a href="{{ url_for('add_event') }}" class="admin-btn">Add New Event</a>
+            <div class="dashboard">
+                <div class="stat-card">
+                    <h3>Totalt Arrangementer</h3>
+                    <div class="stat-number">{{ events|length }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Totalt Brukere</h3>
+                    <div class="stat-number">{{ total_users }}</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Totalt Solgte Billetter</h3>
+                    <div class="stat-number">{{ total_tickets }}</div>
+                </div>
             </div>
 
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Event Name</th>
-                            <th>Date</th>
-                            <th>Venue</th>
-                            <th>Available Seats</th>
-                            <th>Total Seats</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+            <div class="events-section">
+                <div class="section-header">
+                    <h2 class="section-title">Administrer Arrangementer</h2>
+                    <a href="{{ url_for('add_event') }}" class="admin-btn">Legg Til Arrangement</a>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                <tr>
+                    <th>Arrangement Navn</th>
+                    <th>Dato</th>
+                    <th>Sted</th>
+                    <th>Ledige Plasser</th>
+                    <th>Totalt Plasser</th>
+                    <th>Pris</th>
+                    <th>Handlinger</th>
+                </tr>
+            </thead>
                     <tbody>
                         {% for event in events %}
                         <tr>
@@ -75,11 +75,11 @@
                             <td>{{ event[7] }}</td>
                             <td>${{ event[9] }}</td>
                             <td class="action-buttons">
-                                <a href="{{ url_for('show_seats', event_id=event[0]) }}" class="admin-btn btn-view">View</a>
+                                <a href="{{ url_for('show_seats', event_id=event[0]) }}" class="admin-btn btn-view">Se på</a>
                                 <form action="{{ url_for('delete_event', event_id=event[0]) }}" method="POST" class="inline-form">
                                     <button type="submit" class="admin-btn btn-delete" 
                                             onclick="return confirm('Are you sure you want to delete this event?')">
-                                        Delete
+                                        Slett
                                     </button>
                                 </form>
                             </td>
