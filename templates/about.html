@@ -1,1 +1,79 @@
-ABOUT
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kulturkick</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-bar">
+      <h1>Kulturkick</h1>
+      <img src="logo.png" alt="Kulturkick logo" class="logo">
+    </div>
+    <div class="sub-header">
+      <h2>Vårt team</h2>
+    </div>
+  </header>
+
+  <main>
+    <!-- Team-visning -->
+    <div class="team-section">
+      <div class="search-bar">
+        <input type="text" placeholder="Value">
+        <button>X</button>
+      </div>
+      <div class="team-list">
+        <!-- Gjenta divs for hvert medlem -->
+        <div class="team-card"></div>
+        <div class="team-card"></div>
+        <div class="team-card"></div>
+        <div class="team-card"></div>
+        <div class="team-card"></div>
+        <div class="team-card"></div>
+      </div>
+    </div>
+
+    <!-- Showvisning -->
+    <section class="show-section">
+      <h2>Våre show</h2>
+
+      <div class="image-carousel">
+        <button class="arrow left">‹</button>
+        <div class="carousel-images">
+          <div class="carousel-item">Bilde</div>
+          <div class="carousel-item">Bilde</div>
+          <div class="carousel-item">Bilde</div>
+        </div>
+        <button class="arrow right">›</button>
+      </div>
+
+      <div class="ticket-section">
+        <div class="ticket-options">
+          <button>Bestill billetter</button>
+          <ul>
+            <li>Mulighet 1</li>
+            <li>Mulighet 2</li>
+            <li>Mulighet 3</li>
+          </ul>
+        </div>
+        <div class="seat-view">
+          Sete-view som på kino
+        </div>
+      </div>
+    </section>
+
+    <!-- Kartseksjon -->
+    <section class="location-section">
+      <h2>Hvor vi befinner oss</h2>
+
+      <div class="location-grid">
+        <div class="info-box">Tekst</div>
+        <img src="map.png" alt="Kart til Romsdal High School" class="map" />
+        <div class="info-box wide">Tekst</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

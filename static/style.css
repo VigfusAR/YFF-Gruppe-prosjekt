@@ -1,0 +1,33 @@
+* {
+    border: none;
+}
+
+header {
+    background-color: #9a00ae;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    max-height: 300px;
+}
+
+.bilde {
+    max-width: 200px;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    background-color: purple;
+    color: white;
+}
+
+.bokser{
+    display: flex;
+    flex-direction: row;
+    min-width: 50;
+    max-width: 200;
+    background-color: blue;
+}

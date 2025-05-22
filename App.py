@@ -78,7 +78,7 @@ def ensure_admin_exists():
                      (username, password, email, is_admin, created_at)
                      VALUES (?, ?, ?, ?, ?)''',
                      ('Admin', admin_password, 'Admin@123', True, datetime.now()))
-        conn.commit()
+        conn.commit()   
         print("Admin user created successfully")
     
     conn.close()
@@ -250,27 +250,35 @@ def show_seats(event_id):
     conn = sqlite3.connect('tickets.db')
     c = conn.cursor()
     
-    c.execute('SELECT * FROM events WHERE id = ?', (event_id,))
+    # Get event details
+    c.execute('''SELECT 
+                    id, name, description, 
+                    strftime('%Y-%m-%d %H:%M', date) as formatted_date,
+                    venue, total_rows, seats_per_row, total_seats,
+                    available_seats, price
+                FROM events 
+                WHERE id = ?''', (event_id,))
     event = c.fetchone()
     
     if not event:
         flash('Event not found')
         return redirect(url_for('home'))
     
+    # Get taken seats
     c.execute('SELECT row_number, seat_column FROM tickets WHERE event_id = ?', (event_id,))
     taken_seats = set((row[0], row[1]) for row in c.fetchall())
     
+    # Create seating layout
     seating = []
-    for row in range(1, event[5] + 1):
+    for row in range(1, event[5] + 1):  # total_rows
         seat_row = []
-        for col in range(1, event[6] + 1):
+        for col in range(1, event[6] + 1):  # seats_per_row
             is_taken = (row, col) in taken_seats
             seat_row.append({'row': row, 'column': col, 'taken': is_taken})
         seating.append(seat_row)
     
     conn.close()
     return render_template('seats.html', event=event, seating=seating)
-
 @app.route('/book_seat/<int:event_id>/<int:row>/<int:column>', methods=['GET', 'POST'])
 def book_seat(event_id, row, column):
     if request.method == 'POST':

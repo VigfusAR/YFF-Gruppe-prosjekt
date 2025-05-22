@@ -11,7 +11,7 @@
         }
         nav {
             background: #333;
-            padding: 15px;
+            padding: 15px;  
             margin-bottom: 30px;
         }
         nav a {
@@ -19,11 +19,22 @@
             text-decoration: none;
             margin-right: 15px;
         }
-        .event-info {
+        .event-details {
             background: white;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .price-info {
+            font-size: 1.2em;
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .availability-info {
+            font-size: 1.1em;
+            margin: 10px 0;
         }
         .seating-layout {
             background: white;
@@ -32,6 +43,8 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .row {
             display: flex;
@@ -48,6 +61,7 @@
             cursor: pointer;
             border-radius: 4px;
             font-size: 0.8em;
+            transition: all 0.2s ease;
         }
         .taken {
             background-color: #ff4444;
@@ -60,25 +74,34 @@
         }
         .available:hover {
             background-color: #45a049;
+            transform: scale(1.1);
         }
         .stage {
             text-align: center;
             padding: 20px;
             background-color: #333;
             color: white;
-            margin-bottom: 20px;
+            margin: 20px auto;
             border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .legend {
             display: flex;
             gap: 20px;
             justify-content: center;
             margin: 20px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+            padding: 5px 15px;
         }
         .legend-box {
             width: 20px;
@@ -91,6 +114,12 @@
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 4px;
+            text-align: center;
+        }
+        .event-description {
+            margin-top: 15px;
+            color: #666;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -118,11 +147,22 @@
         {% endif %}
     {% endwith %}
 
-    <div class="event-info">
+    <div class="event-details">
         <h1>{{ event[1] }}</h1>
         <p><strong>Date:</strong> {{ event[3] }}</p>
         <p><strong>Venue:</strong> {{ event[4] }}</p>
-        <p><strong>Price:</strong> ${{ "%.2f"|format(event[9]) }}</p>
+        <div class="price-info">
+            <span>Ticket Price: ${{ "%.2f"|format(event[9]) }}</span>
+        </div>
+        <div class="availability-info">
+            <span>Available Seats: {{ event[8] }} of {{ event[7] }}</span>
+        </div>
+        {% if event[2] %}
+            <div class="event-description">
+                <strong>Description:</strong>
+                <p>{{ event[2] }}</p>
+            </div>
+        {% endif %}
     </div>
 
     <div class="legend">
@@ -142,13 +182,13 @@
         {% for row in seating %}
         <div class="row">
             {% for seat in row %}
-            <div class="seat {% if seat.taken %}taken{% else %}available{% endif %}
+            <div class="seat {% if seat.taken %}taken{% else %}available{% endif %}"
                  {% if not seat.taken and session.user_id %}
-                    onclick=bookSeat({{ event[0] }}, {{ seat.row }}, {{ seat.column }})
+                    onclick="bookSeat({{ event[0] }}, {{ seat.row }}, {{ seat.column }})"
                  {% elif not session.user_id %}
-                    onclick=alert('Please login to book seats')
+                    onclick="alert('Please login to book seats')"
                  {% endif %}
-                 title= Row {{ seat.row }}, Seat {{ seat.column }}">
+                 title="Row {{ seat.row }}, Seat {{ seat.column }}">
                 {{ seat.row }}-{{ seat.column }}
             </div>
             {% endfor %}
@@ -174,9 +214,6 @@
                     alert(data.message || 'Failed to book seat');
                 }
             })
-            .catch(error => {
-                alert('Error booking seat');
-            });
         }
     }
     </script>
